@@ -48,6 +48,15 @@
         .btn-failure {
             background-color: #dc3545;
             color: white;
+            border: none;
+        }
+
+        .btn-failure:hover,
+        .btn-failure:focus,
+        .btn-failure:active {
+            background-color: #b52a37 !important;
+            color: white !important;
+            box-shadow: none;
         }
 
         .modal-header {
@@ -85,15 +94,18 @@
 
         #lainnyaModal .modal-dialog,
         #paymentResponseModal .modal-dialog,
-        #genericModal .modal-dialog {
+        #genericModal .modal-dialog,
+        #responGagalModal .modal-dialog {
             max-width: 90%;
             margin: 1.75rem auto;
         }
 
         @media (min-width: 576px) {
+
             #lainnyaModal .modal-dialog,
             #paymentResponseModal .modal-dialog,
-            #genericModal .modal-dialog {
+            #genericModal .modal-dialog,
+            #responGagalModal .modal-dialog {
                 max-width: 400px;
             }
         }
@@ -122,7 +134,8 @@
     </div>
 
     <!-- Generic Modal -->
-    <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -140,7 +153,8 @@
     </div>
 
     <!-- Lainnya Modal -->
-    <div class="modal fade" id="lainnyaModal" tabindex="-1" aria-labelledby="lainnyaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="lainnyaModal" tabindex="-1" aria-labelledby="lainnyaModalLabel" aria-hidden="true"
+        data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,7 +176,8 @@
     </div>
 
     <!-- Respon Pembayaran Modal -->
-    <div class="modal fade" id="paymentResponseModal" tabindex="-1" aria-labelledby="paymentResponseModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="paymentResponseModal" tabindex="-1" aria-labelledby="paymentResponseModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -179,6 +194,33 @@
         </div>
     </div>
 
+    <!-- Respon Gagal Modal -->
+    <div class="modal fade" id="responGagalModal" tabindex="-1" aria-labelledby="responGagalModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="responGagalModalLabel">Respon Gagal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 1</button>
+                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 2</button>
+                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 3</button>
+                    <button class="btn btn-primary btn-custom">ID Salah</button>
+                    <button class="btn btn-primary btn-custom">Invalid Number</button>
+                    <button class="btn btn-primary btn-custom">Biller Error</button>
+                    <button class="btn btn-primary btn-custom">Already Paid 1</button>
+                    <button class="btn btn-primary btn-custom">Already Paid 2</button>
+                    <button class="btn btn-primary btn-custom">Produk Gangguan</button>
+                    <button class="btn btn-primary btn-custom">Tidak dapat diproses ID Salah</button>
+                    <button class="btn btn-primary btn-custom">Tidak dapat diproses No. Salah</button>
+                    <button class="btn btn-primary btn-custom">No Bill</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -187,7 +229,7 @@
     <script>
         const genericModal = document.getElementById('genericModal');
         genericModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; 
+            const button = event.relatedTarget;
             const modalTitle = button.getAttribute('data-modal-title');
             const modalContent = button.getAttribute('data-modal-content');
             const modalCode = button.getAttribute('data-modal-code');
@@ -211,9 +253,15 @@
             paymentResponseModal.show();
         });
 
+        // Handling Respon Gagal button
+        document.querySelector('.btn-failure').addEventListener('click', function () {
+            var responGagalModal = new bootstrap.Modal(document.getElementById('responGagalModal'));
+            responGagalModal.show();
+        });
+
         // Ensure modals only close when the close button is clicked
-        const modals = ['lainnyaModal', 'paymentResponseModal', 'genericModal'];
-        modals.forEach(function(modalId) {
+        const modals = ['lainnyaModal', 'paymentResponseModal', 'genericModal', 'responGagalModal'];
+        modals.forEach(function (modalId) {
             const modalElement = document.getElementById(modalId);
             modalElement.addEventListener('click', function (event) {
                 if (event.target === modalElement.querySelector('.btn-close')) {
