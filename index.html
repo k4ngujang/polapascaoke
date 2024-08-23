@@ -117,6 +117,26 @@
                 max-width: 400px;
             }
         }
+
+        #requestPolaResponModal .modal-dialog {
+            max-width: 500px;
+            /* Sesuaikan lebar sesuai kebutuhan */
+            width: 100%;
+        }
+
+        #requestPolaResponModal .modal-content {
+            max-height: 95vh;
+            /* Mengatur tinggi modal untuk hampir seluruh layar */
+            height: auto;
+            /* Membuat tinggi mengikuti isi konten */
+            overflow-y: visible;
+            /* Memastikan tidak ada scroll */
+        }
+
+        #requestPolaResponModal {
+            overflow: hidden;
+            /* Menghilangkan scroll dari seluruh modal */
+        }
     </style>
 </head>
 
@@ -153,26 +173,25 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Masukkan nomor tagihan yang belum dibayar pada kolom input 'Nomor Tagihan'. Kamu juga bisa
-                        menggunakan Callback yang terdapat pada bagian Response. Jika menggunakan Callback, masukkan
-                        data tersebut ke dalam kolom 'Callback'.
+                        Masukkan nomor tagihan yang belum terbayarkan pada kolom input 'Nomor Tagihan'. Kamu juga bisa
+                        menggunakan Callback yang terdapat pada bagian Response.
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="namaProduk" class="form-label">Nama Produk</label>
                         <input type="text" class="form-control" id="namaProduk" placeholder="Isi nama produk">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="nomerTagihan" class="form-label">Nomer Tagihan</label>
                         <input type="text" class="form-control" id="nomerTagihan" placeholder="Masukan Nomer Tagihan">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="polaRespon" class="form-label">Pilih Pola Respon</label>
                         <select class="form-control" id="polaRespon">
                             <option value="Pengecekan">Pengecekan</option>
                             <option value="Pembayaran">Pembayaran</option>
                         </select>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="callbackData" class="form-label">Callback (Opsional)</label>
                         <textarea class="form-control" id="callbackData" rows="3"
                             placeholder="Masukan Callback (Opsional)"></textarea>
