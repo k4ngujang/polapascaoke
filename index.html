@@ -491,7 +491,7 @@
                     isConfirmButtonClicked = true;
 
                     confirmButton.addEventListener('click', function () {
-                        if (confirmButton.textContent === 'Proses...') return;
+                        if (confirmButton.textContent === 'diproses...') return;
 
                         confirmButton.textContent = 'Sedang diproses...';
 
@@ -511,10 +511,11 @@
                                             location.reload(); // Auto-refresh the page
                                         });
 
-                                        cancelButton.textContent = 'Tutup';
+                                        // Handle "Tutup" button click to refresh the page
                                         cancelButton.addEventListener('click', function () {
                                             location.reload(); // Auto-refresh the page
                                         });
+
                                     } else {
                                         confirmButton.textContent = 'Lanjutkan';
                                         Swal.fire({
