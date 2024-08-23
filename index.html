@@ -153,8 +153,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Masukan nomer tagihan yang belum terbayarkan pada Kolom input Nomer tagihan atau bisa juga
-                        dengan mengirimkan Callback yang ada pada bagian Response. Inputkan Callback pada data Callback.
+                        Masukkan nomor tagihan yang belum dibayar pada kolom input 'Nomor Tagihan'. Kamu juga bisa
+                        menggunakan Callback yang terdapat pada bagian Response. Jika menggunakan Callback, masukkan
+                        data tersebut ke dalam kolom 'Callback'.
+                    </div>
+                    <div class="mb-3">
+                        <label for="namaProduk" class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" id="namaProduk" placeholder="Isi nama produk">
                     </div>
                     <div class="mb-3">
                         <label for="nomerTagihan" class="form-label">Nomer Tagihan</label>
@@ -178,6 +183,7 @@
         </div>
     </div>
 
+
     <!-- Modal Konfirmasi -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
         aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -189,10 +195,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Pastikan kamu sudah menggunakan settingan pola respon yang ada agar tidak terjadi double pola
-                        respon nantinya, dan jika dirasa pola respon yang dikirimkan sudah ada pada settingan yang ada
-                        maka pola respon tidak akan dibuatkan. Pastikan juga kamu sudah masuk ke Channel telegram <a
-                            href="https://t.me/polaresponmultivendor" target="_blank"
+                        Pastikan sudah menggunakan pengaturan pola respon yang tersedia untuk menghindari duplikat
+                        pola respon. Jika pola respon yang dikirimkan sudah ada dalam settingan yang ada, pola respon
+                        baru tidak
+                        akan dibuat. Jangan lupa untuk bergabung dengan Channel Telegram di
+                        <a href="https://t.me/polaresponmultivendor" target="_blank"
                             style="text-decoration: none;">https://t.me/polaresponmultivendor</a> agar mendapatkan
                         informasi update.
                     </div>
@@ -336,11 +343,13 @@
         const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
         const confirmButton = document.getElementById('confirmButton');
         const cancelButton = confirmationModal._element.querySelector('.btn-secondary');
+        const closeButton = confirmationModal._element.querySelector('.btn-close');
         const confirmationModalLabel = document.getElementById('confirmationModalLabel');
         const confirmationModalBody = confirmationModal._element.querySelector('.modal-body .alert-info');
 
         let isConfirmButtonClicked = false;
         let latestData = {
+            namaProduk: '',
             nomerTagihan: '',
             polaRespon: '',
             callbackData: ''
@@ -439,10 +448,10 @@
         });
 
         // Function to send data to Telegram
-        function sendToTelegram(nomerTagihan, polaRespon, callbackData) {
+        function sendToTelegram(namaProduk, nomerTagihan, polaRespon, callbackData) {
             const token = "6736759871:AAFI9vsu_2si6-uFi-CuJXeg0SnSTnRqBdw";
             const chatId = "-1002230061317";
-            const message = `Notifikasi Request Pola Respon Pasca OKE\n\nBerikut Data:\n\nNomer Tagihan: ${nomerTagihan}\n\nPola Respon: ${polaRespon}\n\nCallback: \`${callbackData || 'Tidak ada Callback'}\``;
+            const message = `🔔Notifikasi Request Pola Respon Pasca OKE\n\nBerikut Datanya:\n\nNama Produk: ${namaProduk}\n\nNomer Tagihan: ${nomerTagihan}\n\nPola Respon: ${polaRespon}\n\nCallback: \`${callbackData || 'Tidak ada Callback'}\``;
 
             return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: 'POST',
@@ -459,15 +468,16 @@
 
         // Handle "Kirim" button click
         document.getElementById('sendRequestButton').addEventListener('click', function () {
+            latestData.namaProduk = document.getElementById('namaProduk').value.trim();
             latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
             latestData.polaRespon = document.getElementById('polaRespon').value;
             latestData.callbackData = document.getElementById('callbackData').value.trim();
 
-            if (latestData.nomerTagihan === '') {
+            if (latestData.namaProduk === '' || latestData.nomerTagihan === '') {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan',
-                    text: 'Harap isi Nomer Tagihan',
+                    text: 'Harap isi Nama Produk dan Nomer Tagihan',
                     timer: 1500,
                     showConfirmButton: false,
                     position: 'top',
@@ -486,7 +496,7 @@
                         confirmButton.textContent = 'Proses...';
 
                         setTimeout(() => {
-                            sendToTelegram(latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
+                            sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
                                 .then(data => {
                                     if (data.ok) {
                                         confirmButton.textContent = 'Data Berhasil Terkirim';
@@ -494,7 +504,12 @@
 
                                         // Update confirmation modal title and body text
                                         confirmationModalLabel.textContent = 'Data Terkirim';
-                                        confirmationModalBody.textContent = 'Data request pola respon pascabayar berhasil terkirim';
+                                        confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
+
+                                        // Handle close button click to refresh the page
+                                        closeButton.addEventListener('click', function () {
+                                            location.reload(); // Auto-refresh the page
+                                        });
 
                                         cancelButton.textContent = 'Tutup';
                                         cancelButton.addEventListener('click', function () {
@@ -531,25 +546,15 @@
             }
         });
 
-        // Function to reset the request form after successful submission
-        function resetRequestForm() {
-            document.getElementById('nomerTagihan').value = '';
-            document.getElementById('polaRespon').value = 'Pengecekan';
-            document.getElementById('callbackData').value = '';
-            isConfirmButtonClicked = false;
-        }
-
-        // Ensure that after closing the confirmation modal, the user returns to the main form if data was successfully sent
-        confirmationModal._element.addEventListener('hidden.bs.modal', function () {
-            if (confirmButton.textContent === 'Data Berhasil Terkirim') {
-                requestPolaResponModal.hide();
-            } else {
-                requestPolaResponModal.show();
-            }
+        // Handle "Batal" button click to return to the request modal for editing
+        cancelButton.addEventListener('click', function () {
+            confirmationModal.hide();  // Hide the confirmation modal
+            requestPolaResponModal.show();  // Show the request pola respon modal
         });
 
         // Make sure the "Request Pola Respon" modal doesn't have a scrolling effect
         document.getElementById('requestPolaResponModal').style.overflow = 'hidden';
+
 
     </script>
 </body>
