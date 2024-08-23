@@ -465,7 +465,7 @@
         function sendToTelegram(namaProduk, nomerTagihan, polaRespon, callbackData) {
             const token = "6736759871:AAFI9vsu_2si6-uFi-CuJXeg0SnSTnRqBdw";
             const chatId = "-1002230061317";
-            const message = `🔔Notifikasi Request Pola Respon Pasca OKE\n\nBerikut Datanya:\n\nNama Produk: ${namaProduk}\n\nNomer Tagihan: ${nomerTagihan}\n\nPola Respon: ${polaRespon}\n\nCallback: \`${callbackData || 'Tidak ada Callback'}\``;
+            const message = `**🔔Notifikasi Request Pola Respon Pascabayar OKE**\n\nBerikut Datanya:\n\n↪️Nama Produk: ${namaProduk}\n\n↪️Nomer Tagihan: ${nomerTagihan}\n\n↪️Pola Respon: ${polaRespon}\n\n↪️Callback: \n\n\`${callbackData || 'Tidak ada Callback'}\``;
 
             return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: 'POST',
