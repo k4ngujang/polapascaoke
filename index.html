@@ -13,14 +13,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 80vh;
+            height: 100vh;
             margin: 0;
+            padding: 15px; /* Tambahkan padding pada body untuk menghindari tampilan yang dempet di mobile */
         }
 
         .card {
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            max-width: 100%; /* Membatasi lebar maksimal card */
+            margin: 0 auto; /* Memastikan card tetap di tengah */
+            box-sizing: border-box;
         }
 
         .btn-custom {
@@ -211,3 +215,4 @@
 </body>
 
 </html>
+
