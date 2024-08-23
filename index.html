@@ -169,18 +169,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <button class="btn btn-primary btn-custom">XL Home</button>
-                    <button class="btn btn-primary btn-custom">Iconnet</button>
-                    <button class="btn btn-primary btn-custom">Adira</button>
-                    <button class="btn btn-primary btn-custom">Telpon Pascabayar 1</button>
-                    <button class="btn btn-primary btn-custom">Telpon Pascabayar 2</button>
-                    <button class="btn btn-primary btn-custom">Tagihan PBB</button>
-                    <button class="btn btn-primary btn-custom">PBB Kab. Tangerang</button>
-                    <button class="btn btn-primary btn-custom">PBB Kab. Sumedang</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan XL Home" data-modal-content="Cek tagihan XL Home..."
+                        data-modal-code="Format XL Home">XL Home</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan Iconnet" data-modal-content="Cek tagihan Iconnet..."
+                        data-modal-code="Format Iconnet">Iconnet</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan Adira" data-modal-content="Cek tagihan Adira..."
+                        data-modal-code="Format Adira">Adira</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan Telpon Pascabayar 1"
+                        data-modal-content="Cek tagihan Telpon Pascabayar 1..."
+                        data-modal-code="Format Telpon Pascabayar 1">Telpon Pascabayar 1</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan Telpon Pascabayar 2"
+                        data-modal-content="Cek tagihan Telpon Pascabayar 2..."
+                        data-modal-code="Format Telpon Pascabayar 2">Telpon Pascabayar 2</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan PBB" data-modal-content="Cek tagihan PBB..."
+                        data-modal-code="Format PBB">Tagihan PBB</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan PBB Kab. Tangerang"
+                        data-modal-content="Cek tagihan PBB Kab. Tangerang..."
+                        data-modal-code="Format PBB Kab. Tangerang">PBB Kab. Tangerang</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan PBB Kab. Sumedang"
+                        data-modal-content="Cek tagihan PBB Kab. Sumedang..."
+                        data-modal-code="Format PBB Kab. Sumedang">PBB Kab. Sumedang</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Respon Pembayaran Modal -->
     <div class="modal fade" id="paymentResponseModal" tabindex="-1" aria-labelledby="paymentResponseModalLabel"
@@ -192,14 +213,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <button class="btn btn-primary btn-custom">Sukses Pembayaran 1</button>
-                    <button class="btn btn-primary btn-custom">Sukses Pembayaran 2</button>
-                    <button class="btn btn-primary btn-custom">Sukses Pembayaran 3</button>
-                    <button class="btn btn-primary btn-custom">Sukses Pembayaran 4</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tagihan Terbayarkan 1" data-modal-content="Detail tagihan terbayarkan 1..."
+                        data-modal-code="Kode Tagihan 1">Tagihan Terbayarkan 1</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tagihan Terbayarkan 2" data-modal-content="Detail tagihan terbayarkan 2..."
+                        data-modal-code="Kode Tagihan 2">Tagihan Terbayarkan 2</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tagihan Terbayarkan 3" data-modal-content="Detail tagihan terbayarkan 3..."
+                        data-modal-code="Kode Tagihan 3">Tagihan Terbayarkan 3</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Sukses Pembayaran 4" data-modal-content="Detail sukses pembayaran 4..."
+                        data-modal-code="Kode Pembayaran 4">Sukses Pembayaran 4</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Respon Gagal Modal -->
     <div class="modal fade" id="responGagalModal" tabindex="-1" aria-labelledby="responGagalModalLabel"
@@ -235,6 +265,9 @@
     <!-- JavaScript to handle modal content dynamically -->
     <script>
         const genericModal = document.getElementById('genericModal');
+        const lainnyaModal = new bootstrap.Modal(document.getElementById('lainnyaModal'));
+        const paymentResponseModal = new bootstrap.Modal(document.getElementById('paymentResponseModal'));
+
         genericModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const modalTitle = button.getAttribute('data-modal-title');
@@ -245,18 +278,32 @@
             modal.querySelector('.modal-title').textContent = modalTitle;
             modal.querySelector('textarea').textContent = modalContent;
             modal.querySelector('.code-block').textContent = modalCode;
+
+            // Store if the trigger came from the "Lainnya" or "Payment Response" modal
+            const triggeredFromLainnya = button.closest('#lainnyaModal') ? 'lainnya' : '';
+            const triggeredFromPayment = button.closest('#paymentResponseModal') ? 'payment' : '';
+
+            modal.setAttribute('data-triggered-from', triggeredFromLainnya || triggeredFromPayment);
+        });
+
+        genericModal.addEventListener('hidden.bs.modal', function () {
+            // Check if the modal was triggered from the "Lainnya" or "Payment Response" modal
+            const triggeredFrom = this.getAttribute('data-triggered-from');
+
+            if (triggeredFrom === 'lainnya') {
+                lainnyaModal.show();  // Reopen the "Lainnya" modal
+            } else if (triggeredFrom === 'payment') {
+                paymentResponseModal.show();  // Reopen the "Payment Response" modal
+            }
         });
 
         // Handling Lainnya button
         document.getElementById('lainnyaButton').addEventListener('click', function () {
-            var lainnyaModal = new bootstrap.Modal(document.getElementById('lainnyaModal'));
             lainnyaModal.show();
         });
 
         // Handling Respon Pembayaran button
-        const paymentResponseButton = document.getElementById('paymentResponseButton');
-        paymentResponseButton.addEventListener('click', function () {
-            var paymentResponseModal = new bootstrap.Modal(document.getElementById('paymentResponseModal'));
+        document.getElementById('paymentResponseButton').addEventListener('click', function () {
             paymentResponseModal.show();
         });
 
@@ -276,6 +323,7 @@
                 }
             });
         });
+
     </script>
 </body>
 
