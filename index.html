@@ -138,9 +138,72 @@
         <button class="btn btn-primary btn-custom" id="lainnyaButton">Lainnya</button>
         <button class="btn btn-payment btn-custom" id="paymentResponseButton">Respon Pembayaran</button>
         <button class="btn btn-failure btn-custom">Respon Gagal</button>
-        <button class="btn btn-secondary btn-custom">Request Pola Respon</button>
+        <button class="btn btn-secondary btn-custom" data-bs-toggle="modal"
+            data-bs-target="#requestPolaResponModal">Request Pola Respon</button>
     </div>
 
+    <!-- Request Pola Respon Modal -->
+    <div class="modal fade" id="requestPolaResponModal" tabindex="-1" aria-labelledby="requestPolaResponModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestPolaResponModalLabel">Request Pola Respon Pascabayar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info" role="alert">
+                        Masukan nomer tagihan yang belum terbayarkan pada Kolom input Nomer tagihan atau bisa juga
+                        dengan mengirimkan Callback yang ada pada bagian Response. Inputkan Callback pada data Callback.
+                    </div>
+                    <div class="mb-3">
+                        <label for="nomerTagihan" class="form-label">Nomer Tagihan</label>
+                        <input type="text" class="form-control" id="nomerTagihan" placeholder="Masukan Nomer Tagihan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="polaRespon" class="form-label">Pilih Pola Respon</label>
+                        <select class="form-control" id="polaRespon">
+                            <option value="Pengecekan">Pengecekan</option>
+                            <option value="Pembayaran">Pembayaran</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="callbackData" class="form-label">Callback (Opsional)</label>
+                        <textarea class="form-control" id="callbackData" rows="3"
+                            placeholder="Masukan Callback (Opsional)"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="sendRequestButton">Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info" role="alert">
+                        Pastikan kamu sudah menggunakan settingan pola respon yang ada agar tidak terjadi double pola
+                        respon nantinya, dan jika dirasa pola respon yang dikirimkan sudah ada pada settingan yang ada
+                        maka pola respon tidak akan dibuatkan. Pastikan juga kamu sudah masuk ke Channel telegram <a
+                            href="https://t.me/polaresponmultivendor" target="_blank"
+                            style="text-decoration: none;">https://t.me/polaresponmultivendor</a> agar mendapatkan
+                        informasi update.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Lanjutkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Generic Modal -->
     <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true"
         data-bs-backdrop="static" data-bs-keyboard="false">
@@ -203,7 +266,6 @@
         </div>
     </div>
 
-
     <!-- Respon Pembayaran Modal -->
     <div class="modal fade" id="paymentResponseModal" tabindex="-1" aria-labelledby="paymentResponseModalLabel"
         aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -230,7 +292,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Respon Gagal Modal -->
     <div class="modal fade" id="responGagalModal" tabindex="-1" aria-labelledby="responGagalModalLabel"
@@ -260,17 +321,30 @@
         </div>
     </div>
 
-
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <!-- JavaScript to handle modal content dynamically and copy functionality -->
     <script>
+        // JavaScript to handle modal content dynamically and copy functionality
         const genericModal = document.getElementById('genericModal');
         const lainnyaModal = new bootstrap.Modal(document.getElementById('lainnyaModal'));
         const paymentResponseModal = new bootstrap.Modal(document.getElementById('paymentResponseModal'));
         const responGagalModal = new bootstrap.Modal(document.getElementById('responGagalModal'));
+        const requestPolaResponModal = new bootstrap.Modal(document.getElementById('requestPolaResponModal'));
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        const confirmButton = document.getElementById('confirmButton');
+        const cancelButton = confirmationModal._element.querySelector('.btn-secondary');
+        const confirmationModalLabel = document.getElementById('confirmationModalLabel');
+        const confirmationModalBody = confirmationModal._element.querySelector('.modal-body .alert-info');
+
+        let isConfirmButtonClicked = false;
+        let latestData = {
+            nomerTagihan: '',
+            polaRespon: '',
+            callbackData: ''
+        };
 
         genericModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
@@ -283,7 +357,6 @@
             modal.querySelector('textarea').textContent = modalContent;
             modal.querySelector('.code-block').textContent = modalCode;
 
-            // Determine which modal triggered the generic modal
             if (button.closest('#lainnyaModal')) {
                 modal.setAttribute('data-triggered-from', 'lainnya');
             } else if (button.closest('#paymentResponseModal')) {
@@ -299,30 +372,26 @@
             const triggeredFrom = this.getAttribute('data-triggered-from');
 
             if (triggeredFrom === 'lainnya') {
-                lainnyaModal.show();  // Reopen the "Lainnya" modal
+                lainnyaModal.show();
             } else if (triggeredFrom === 'payment') {
-                paymentResponseModal.show();  // Reopen the "Payment Response" modal
+                paymentResponseModal.show();
             } else if (triggeredFrom === 'gagal') {
-                responGagalModal.show();  // Reopen the "Respon Gagal" modal
+                responGagalModal.show();
             }
         });
 
-        // Handling Lainnya button
         document.getElementById('lainnyaButton').addEventListener('click', function () {
             lainnyaModal.show();
         });
 
-        // Handling Respon Pembayaran button
         document.getElementById('paymentResponseButton').addEventListener('click', function () {
             paymentResponseModal.show();
         });
 
-        // Handling Respon Gagal button
         document.querySelector('.btn-failure').addEventListener('click', function () {
             responGagalModal.show();
         });
 
-        // Ensure modals only close when the close button is clicked
         const modals = ['lainnyaModal', 'paymentResponseModal', 'genericModal', 'responGagalModal'];
         modals.forEach(function (modalId) {
             const modalElement = document.getElementById(modalId);
@@ -368,6 +437,119 @@
             const textToCopy = genericModal.querySelector('.code-block').textContent;
             copyToClipboard(textToCopy);
         });
+
+        // Function to send data to Telegram
+        function sendToTelegram(nomerTagihan, polaRespon, callbackData) {
+            const token = "6736759871:AAFI9vsu_2si6-uFi-CuJXeg0SnSTnRqBdw";
+            const chatId = "-1002230061317";
+            const message = `Notifikasi Request Pola Respon Pasca OKE\n\nBerikut Data:\n\nNomer Tagihan: ${nomerTagihan}\n\nPola Respon: ${polaRespon}\n\nCallback: \`${callbackData || 'Tidak ada Callback'}\``;
+
+            return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            }).then(response => response.json());
+        }
+
+        // Handle "Kirim" button click
+        document.getElementById('sendRequestButton').addEventListener('click', function () {
+            latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
+            latestData.polaRespon = document.getElementById('polaRespon').value;
+            latestData.callbackData = document.getElementById('callbackData').value.trim();
+
+            if (latestData.nomerTagihan === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Harap isi Nomer Tagihan',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    position: 'top',
+                    toast: true
+                });
+            } else {
+                requestPolaResponModal.hide();
+                confirmationModal.show();
+
+                if (!isConfirmButtonClicked) {
+                    isConfirmButtonClicked = true;
+
+                    confirmButton.addEventListener('click', function () {
+                        if (confirmButton.textContent === 'Proses...') return;
+
+                        confirmButton.textContent = 'Proses...';
+
+                        setTimeout(() => {
+                            sendToTelegram(latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
+                                .then(data => {
+                                    if (data.ok) {
+                                        confirmButton.textContent = 'Data Berhasil Terkirim';
+                                        confirmButton.disabled = true; // Disable the button after successful submission
+
+                                        // Update confirmation modal title and body text
+                                        confirmationModalLabel.textContent = 'Data Terkirim';
+                                        confirmationModalBody.textContent = 'Data request pola respon pascabayar berhasil terkirim';
+
+                                        cancelButton.textContent = 'Tutup';
+                                        cancelButton.addEventListener('click', function () {
+                                            location.reload(); // Auto-refresh the page
+                                        });
+                                    } else {
+                                        confirmButton.textContent = 'Lanjutkan';
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal!',
+                                            text: 'Pesan gagal dikirim ke Telegram',
+                                            timer: 1500,
+                                            showConfirmButton: false,
+                                            position: 'top',
+                                            toast: true
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    confirmButton.textContent = 'Lanjutkan';
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Terjadi kesalahan',
+                                        timer: 1500,
+                                        showConfirmButton: false,
+                                        position: 'top',
+                                        toast: true
+                                    });
+                                });
+                        }, 2000); // Wait for 2 seconds before processing
+                    });
+                }
+            }
+        });
+
+        // Function to reset the request form after successful submission
+        function resetRequestForm() {
+            document.getElementById('nomerTagihan').value = '';
+            document.getElementById('polaRespon').value = 'Pengecekan';
+            document.getElementById('callbackData').value = '';
+            isConfirmButtonClicked = false;
+        }
+
+        // Ensure that after closing the confirmation modal, the user returns to the main form if data was successfully sent
+        confirmationModal._element.addEventListener('hidden.bs.modal', function () {
+            if (confirmButton.textContent === 'Data Berhasil Terkirim') {
+                requestPolaResponModal.hide();
+            } else {
+                requestPolaResponModal.show();
+            }
+        });
+
+        // Make sure the "Request Pola Respon" modal doesn't have a scrolling effect
+        document.getElementById('requestPolaResponModal').style.overflow = 'hidden';
 
     </script>
 </body>
