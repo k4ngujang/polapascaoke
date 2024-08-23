@@ -241,22 +241,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 1</button>
-                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 2</button>
-                    <button class="btn btn-primary btn-custom">Tagihan Terbayarkan 3</button>
-                    <button class="btn btn-primary btn-custom">ID Salah</button>
-                    <button class="btn btn-primary btn-custom">Invalid Number</button>
-                    <button class="btn btn-primary btn-custom">Biller Error</button>
-                    <button class="btn btn-primary btn-custom">Already Paid 1</button>
-                    <button class="btn btn-primary btn-custom">Already Paid 2</button>
-                    <button class="btn btn-primary btn-custom">Produk Gangguan</button>
-                    <button class="btn btn-primary btn-custom">Tidak dapat diproses ID Salah</button>
-                    <button class="btn btn-primary btn-custom">Tidak dapat diproses No. Salah</button>
-                    <button class="btn btn-primary btn-custom">No Bill</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tagihan Terbayarkan 1" data-modal-content="Detail tagihan terbayarkan 1..."
+                        data-modal-code="Kode Tagihan 1">Tagihan Terbayarkan 1</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="ID Salah" data-modal-content="Detail ID Salah..."
+                        data-modal-code="Kode ID Salah">ID Salah</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Invalid Number" data-modal-content="Detail Invalid Number..."
+                        data-modal-code="Kode Invalid Number">Invalid Number</button>
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Biller Error" data-modal-content="Detail Biller Error..."
+                        data-modal-code="Kode Biller Error">Biller Error</button>
+                    <!-- Add other buttons as needed -->
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -267,6 +269,7 @@
         const genericModal = document.getElementById('genericModal');
         const lainnyaModal = new bootstrap.Modal(document.getElementById('lainnyaModal'));
         const paymentResponseModal = new bootstrap.Modal(document.getElementById('paymentResponseModal'));
+        const responGagalModal = new bootstrap.Modal(document.getElementById('responGagalModal'));
 
         genericModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
@@ -279,21 +282,27 @@
             modal.querySelector('textarea').textContent = modalContent;
             modal.querySelector('.code-block').textContent = modalCode;
 
-            // Store if the trigger came from the "Lainnya" or "Payment Response" modal
-            const triggeredFromLainnya = button.closest('#lainnyaModal') ? 'lainnya' : '';
-            const triggeredFromPayment = button.closest('#paymentResponseModal') ? 'payment' : '';
-
-            modal.setAttribute('data-triggered-from', triggeredFromLainnya || triggeredFromPayment);
+            // Determine which modal triggered the generic modal
+            if (button.closest('#lainnyaModal')) {
+                modal.setAttribute('data-triggered-from', 'lainnya');
+            } else if (button.closest('#paymentResponseModal')) {
+                modal.setAttribute('data-triggered-from', 'payment');
+            } else if (button.closest('#responGagalModal')) {
+                modal.setAttribute('data-triggered-from', 'gagal');
+            } else {
+                modal.setAttribute('data-triggered-from', '');
+            }
         });
 
         genericModal.addEventListener('hidden.bs.modal', function () {
-            // Check if the modal was triggered from the "Lainnya" or "Payment Response" modal
             const triggeredFrom = this.getAttribute('data-triggered-from');
 
             if (triggeredFrom === 'lainnya') {
                 lainnyaModal.show();  // Reopen the "Lainnya" modal
             } else if (triggeredFrom === 'payment') {
                 paymentResponseModal.show();  // Reopen the "Payment Response" modal
+            } else if (triggeredFrom === 'gagal') {
+                responGagalModal.show();  // Reopen the "Respon Gagal" modal
             }
         });
 
@@ -309,7 +318,6 @@
 
         // Handling Respon Gagal button
         document.querySelector('.btn-failure').addEventListener('click', function () {
-            var responGagalModal = new bootstrap.Modal(document.getElementById('responGagalModal'));
             responGagalModal.show();
         });
 
