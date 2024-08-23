@@ -84,14 +84,16 @@
         }
 
         #lainnyaModal .modal-dialog,
-        #paymentResponseModal .modal-dialog {
+        #paymentResponseModal .modal-dialog,
+        #genericModal .modal-dialog {
             max-width: 90%;
             margin: 1.75rem auto;
         }
 
         @media (min-width: 576px) {
             #lainnyaModal .modal-dialog,
-            #paymentResponseModal .modal-dialog {
+            #paymentResponseModal .modal-dialog,
+            #genericModal .modal-dialog {
                 max-width: 400px;
             }
         }
@@ -120,7 +122,7 @@
     </div>
 
     <!-- Generic Modal -->
-    <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true">
+    <div class="modal fade" id="genericModal" tabindex="-1" aria-labelledby="genericModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -210,7 +212,7 @@
         });
 
         // Ensure modals only close when the close button is clicked
-        const modals = ['lainnyaModal', 'paymentResponseModal'];
+        const modals = ['lainnyaModal', 'paymentResponseModal', 'genericModal'];
         modals.forEach(function(modalId) {
             const modalElement = document.getElementById(modalId);
             modalElement.addEventListener('click', function (event) {
