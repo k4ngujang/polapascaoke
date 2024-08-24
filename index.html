@@ -187,7 +187,7 @@
                             <option value="Pembayaran">Pembayaran</option>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <label for="callbackData" class="form-label">Callback (Opsional)</label>
                         <textarea class="form-control" id="callbackData" rows="3"
                             placeholder="Masukan Callback (Opsional)"></textarea>
@@ -481,96 +481,94 @@
         }
 
         // Handle "Kirim" button click
-        document.getElementById('sendRequestButton').addEventListener('click', function () {
-            latestData.namaProduk = document.getElementById('namaProduk').value.trim();
-            latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
-            latestData.polaRespon = document.getElementById('polaRespon').value;
-            latestData.callbackData = document.getElementById('callbackData').value.trim();
+document.getElementById('sendRequestButton').addEventListener('click', function () {
+    latestData.namaProduk = document.getElementById('namaProduk').value.trim();
+    latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
+    latestData.polaRespon = document.getElementById('polaRespon').value;
+    latestData.callbackData = document.getElementById('callbackData').value.trim();
 
-            if (latestData.namaProduk === '' || latestData.nomerTagihan === '') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Peringatan',
-                    text: 'Harap isi Nama Produk dan Nomer Tagihan',
-                    timer: 1500,
-                    showConfirmButton: false,
-                    position: 'top',
-                    toast: true
-                });
-            } else {
-                requestPolaResponModal.hide();
-                confirmationModal.show();
+    if (latestData.namaProduk === '' || latestData.nomerTagihan === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: 'Harap isi Nama Produk dan Nomer Tagihan',
+            timer: 1500,
+            showConfirmButton: false,
+            position: 'top',
+            toast: true
+        });
+    } else {
+        requestPolaResponModal.hide();
+        confirmationModal.show();
 
-                if (!isConfirmButtonClicked) {
-                    isConfirmButtonClicked = true;
+        if (!isConfirmButtonClicked) {
+            isConfirmButtonClicked = true;
 
-                    confirmButton.addEventListener('click', function () {
-                        if (confirmButton.textContent === 'diproses...') return;
+            confirmButton.addEventListener('click', function () {
+                if (confirmButton.textContent === 'Sedang diproses...') return;
 
-                        confirmButton.textContent = 'Sedang diproses...';
+                confirmButton.textContent = 'Sedang diproses...';
 
-                        setTimeout(() => {
-                            sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
-                                .then(data => {
-                                    if (data.ok) {
-                                        confirmButton.textContent = 'Data Berhasil Terkirim';
-                                        confirmButton.disabled = true; // Disable the button after successful submission
+                setTimeout(() => {
+                    sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
+                        .then(data => {
+                            if (data.ok) {
+                                // Ubah teks konfirmasi dan pesan alert
+                                confirmationModalLabel.textContent = 'Data Terkirim';
+                                confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
 
-                                        // Update confirmation modal title and body text
-                                        confirmationModalLabel.textContent = 'Data Terkirim';
-                                        confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
+                                confirmButton.textContent = 'Data Berhasil Terkirim';
+                                confirmButton.disabled = true; // Disable the button after successful submission
 
-                                        // Handle close button click to refresh the page
-                                        closeButton.addEventListener('click', function () {
-                                            location.reload(); // Auto-refresh the page
-                                        });
+                                // Ubah tombol "Batal" menjadi tombol "Tutup"
+                                cancelButton.textContent = 'Tutup';
+                                cancelButton.classList.remove('btn-secondary');
+                                cancelButton.classList.add('btn-primary');
 
-                                        // Handle "Tutup" button click to refresh the page
-                                        cancelButton.addEventListener('click', function () {
-                                            location.reload(); // Auto-refresh the page
-                                        });
+                                // Sembunyikan tombol "Lanjutkan" (confirmButton)
+                                confirmButton.style.display = 'none';
 
-                                    } else {
-                                        confirmButton.textContent = 'Lanjutkan';
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Gagal!',
-                                            text: 'Pesan gagal dikirim ke Telegram',
-                                            timer: 1500,
-                                            showConfirmButton: false,
-                                            position: 'top',
-                                            toast: true
-                                        });
-                                    }
-                                })
-                                .catch(error => {
-                                    confirmButton.textContent = 'Lanjutkan';
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Terjadi kesalahan',
-                                        timer: 1500,
-                                        showConfirmButton: false,
-                                        position: 'top',
-                                        toast: true
-                                    });
+                                // Handle close button click and "Tutup" button click to close modal and refresh page
+                                const closeConfirmation = () => {
+                                    confirmationModal.hide();
+                                    setTimeout(() => {
+                                        location.reload(); // Auto-refresh the page after 1 second
+                                    }, 1000);
+                                };
+
+                                closeButton.addEventListener('click', closeConfirmation);
+                                cancelButton.addEventListener('click', closeConfirmation);
+
+                            } else {
+                                confirmButton.textContent = 'Lanjutkan';
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: 'Pesan gagal dikirim ke Telegram',
+                                    timer: 1500,
+                                    showConfirmButton: false,
+                                    position: 'top',
+                                    toast: true
                                 });
-                        }, 2000); // Wait for 2 seconds before processing
-                    });
-                }
-            }
-        });
-
-        // Handle "Batal" button click to return to the request modal for editing
-        cancelButton.addEventListener('click', function () {
-            confirmationModal.hide();  // Hide the confirmation modal
-            requestPolaResponModal.show();  // Show the request pola respon modal
-        });
-
-        // Make sure the "Request Pola Respon" modal doesn't have a scrolling effect
-        document.getElementById('requestPolaResponModal').style.overflow = 'hidden';
-
-
+                            }
+                        })
+                        .catch(error => {
+                            confirmButton.textContent = 'Lanjutkan';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Terjadi kesalahan',
+                                timer: 1500,
+                                showConfirmButton: false,
+                                position: 'top',
+                                toast: true
+                            });
+                        });
+                }, 2000); // Wait for 2 seconds before processing
+            });
+        }
+    }
+});
     </script>
 </body>
 
