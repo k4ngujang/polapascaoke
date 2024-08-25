@@ -508,13 +508,12 @@
                                         confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
 
                                         confirmButton.textContent = 'Data Berhasil Terkirim';
-                                        confirmButton.disabled = true;
-
-                                        cancelButton.textContent = 'Tutup';
+                                        confirmButton.disabled = true;                                     
                                         cancelButton.classList.remove('btn-secondary');
                                         cancelButton.classList.add('btn-primary');
 
                                         confirmButton.style.display = 'none';
+                                        cancelButton.style.display = 'none'; // Hide the cancel button
 
                                         const closeConfirmation = () => {
                                             confirmationModal.hide();
@@ -552,6 +551,11 @@
                                     });
                                 });
                         }, 2000);
+                    });
+
+                    cancelButton.addEventListener('click', function () {
+                        confirmationModal.hide();
+                        requestPolaResponModal.show(); // Menampilkan kembali pop up request pola respon
                     });
                 }
             }
