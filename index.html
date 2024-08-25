@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pola Respon Pascabauar OKE</title>
+    <title>Pola Respon Pascabayar OKE</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -27,7 +27,6 @@
             max-width: 90vw;
             max-height: 100vh;
             overflow-y: auto;
-            /* Enable scrolling for the card */
         }
 
         .btn-custom {
@@ -74,10 +73,8 @@
 
         .modal-content {
             border-radius: 10px;
-            max-height: 80vh;
-            /* Set a max height for the modal */
+            max-height: 100vh;
             overflow-y: auto;
-            /* Enable scrolling within the modal */
         }
 
         .copy-btn {
@@ -85,7 +82,7 @@
             margin-top: 10px;
         }
 
-        .code-block {
+        .code-block-textarea {
             background-color: #000;
             color: #fff;
             padding: 10px;
@@ -93,6 +90,17 @@
             margin-top: 10px;
             height: 150px;
             overflow-y: auto;
+            resize: none;
+            border: none;
+        }
+
+        .code-block-textarea:focus,
+        .code-block-textarea:active {
+            background-color: #000 !important;
+            color: #fff !important;
+            border: none;
+            outline: none;
+            box-shadow: none;
         }
 
         textarea {
@@ -118,15 +126,6 @@
             }
         }
 
-        #requestPolaResponModal .modal-content {
-            max-height: 100vh;
-            /* Mengatur tinggi modal untuk hampir seluruh layar */
-            height: auto;
-            /* Membuat tinggi mengikuti isi konten */
-            overflow-y: visible;
-            /* Memastikan tidak ada scroll */
-        }
-    
     </style>
 </head>
 
@@ -163,14 +162,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-    <ul style="list-style-type: '*'; padding-left: 20px;">
-        <li>Masukan nomer tagihan yang belum terbayarkan.</li>
-        <li>Jika tersedia, kirimkan callback yang didapatkan bagian response.</li>
-    </ul>
-</div>
-
-
-
+                        <ul style="list-style-type: '*'; padding-left: 20px;">
+                            <li>Masukan nomer tagihan yang belum terbayarkan.</li>
+                            <li>Jika tersedia, kirimkan callback yang didapatkan bagian response.</li>
+                        </ul>
+                    </div>
 
                     <div class="mb-2">
                         <label for="namaProduk" class="form-label">Nama Produk</label>
@@ -198,7 +194,6 @@
         </div>
     </div>
 
-
     <!-- Modal Konfirmasi -->
     <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
         aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -210,8 +205,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Pastikan kamu telah menggunakan semua pola respon di halaman ini sebelum meminta pola respon pascabayar. 
-                        Jika sudah, tapi masih ada kendala saat Cek Tagihan karena regex tidak terbaca, kamu bisa request pola respon baru, 
+                        Pastikan kamu telah menggunakan semua pola respon di halaman ini sebelum meminta pola respon pascabayar.
+                        Jika sudah, tapi masih ada kendala saat Cek Tagihan karena regex tidak terbaca, kamu bisa request pola respon baru,
                         baik untuk Cek Tagihan maupun Pembayaran. Jangan lupa untuk bergabung ke Channel Telegram di
                         <a href="https://t.me/polaresponmultivendor" target="_blank"
                             style="text-decoration: none;">https://t.me/polaresponmultivendor</a> agar mendapatkan
@@ -235,9 +230,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="5" readonly></textarea>
+                    <textarea class="form-control" id="modalTextareaWhite" rows="5" readonly></textarea>
                     <button class="btn btn-primary copy-btn" id="copyWhiteButton">Copy</button>
-                    <div class="code-block"></div>
+                    <textarea class="form-control code-block-textarea" id="codeBlockTextarea" readonly></textarea>
                     <button class="btn btn-primary copy-btn" id="copyBlackButton">Copy</button>
                 </div>
             </div>
@@ -336,7 +331,6 @@
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
                         data-modal-title="Biller Error" data-modal-content="Detail Biller Error..."
                         data-modal-code="Kode Biller Error">Biller Error</button>
-                    <!-- Add other buttons as needed -->
                 </div>
             </div>
         </div>
@@ -348,7 +342,6 @@
 
     <!-- JavaScript to handle modal content dynamically and copy functionality -->
     <script>
-        // JavaScript to handle modal content dynamically and copy functionality
         const genericModal = document.getElementById('genericModal');
         const lainnyaModal = new bootstrap.Modal(document.getElementById('lainnyaModal'));
         const paymentResponseModal = new bootstrap.Modal(document.getElementById('paymentResponseModal'));
@@ -377,8 +370,8 @@
 
             const modal = this;
             modal.querySelector('.modal-title').textContent = modalTitle;
-            modal.querySelector('textarea').textContent = modalContent;
-            modal.querySelector('.code-block').textContent = modalCode;
+            modal.querySelector('#modalTextareaWhite').textContent = modalContent;
+            modal.querySelector('.code-block-textarea').value = modalCode;
 
             if (button.closest('#lainnyaModal')) {
                 modal.setAttribute('data-triggered-from', 'lainnya');
@@ -425,7 +418,6 @@
             });
         });
 
-        // Function to copy text to clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function () {
                 Swal.fire({
@@ -450,18 +442,18 @@
             });
         }
 
-        // Handle copy button click
         document.getElementById('copyWhiteButton').addEventListener('click', function () {
-            const textToCopy = genericModal.querySelector('textarea').value;
-            copyToClipboard(textToCopy);
+            const textArea = genericModal.querySelector('#modalTextareaWhite');
+            textArea.select();  // Auto-select the content
+            copyToClipboard(textArea.value);
         });
 
         document.getElementById('copyBlackButton').addEventListener('click', function () {
-            const textToCopy = genericModal.querySelector('.code-block').textContent;
-            copyToClipboard(textToCopy);
+            const textArea = genericModal.querySelector('.code-block-textarea');
+            textArea.select();  // Auto-select the content
+            copyToClipboard(textArea.value);
         });
 
-        // Function to send data to Telegram
         function sendToTelegram(namaProduk, nomerTagihan, polaRespon, callbackData) {
             const token = "6736759871:AAFI9vsu_2si6-uFi-CuJXeg0SnSTnRqBdw";
             const chatId = "-1002230061317";
@@ -480,95 +472,90 @@
             }).then(response => response.json());
         }
 
-        // Handle "Kirim" button click
-document.getElementById('sendRequestButton').addEventListener('click', function () {
-    latestData.namaProduk = document.getElementById('namaProduk').value.trim();
-    latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
-    latestData.polaRespon = document.getElementById('polaRespon').value;
-    latestData.callbackData = document.getElementById('callbackData').value.trim();
+        document.getElementById('sendRequestButton').addEventListener('click', function () {
+            latestData.namaProduk = document.getElementById('namaProduk').value.trim();
+            latestData.nomerTagihan = document.getElementById('nomerTagihan').value.trim();
+            latestData.polaRespon = document.getElementById('polaRespon').value;
+            latestData.callbackData = document.getElementById('callbackData').value.trim();
 
-    if (latestData.namaProduk === '' || latestData.nomerTagihan === '') {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Harap isi Nama Produk dan Nomer Tagihan',
-            timer: 1500,
-            showConfirmButton: false,
-            position: 'top',
-            toast: true
-        });
-    } else {
-        requestPolaResponModal.hide();
-        confirmationModal.show();
+            if (latestData.namaProduk === '' || latestData.nomerTagihan === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Harap isi Nama Produk dan Nomer Tagihan',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    position: 'top',
+                    toast: true
+                });
+            } else {
+                requestPolaResponModal.hide();
+                confirmationModal.show();
 
-        if (!isConfirmButtonClicked) {
-            isConfirmButtonClicked = true;
+                if (!isConfirmButtonClicked) {
+                    isConfirmButtonClicked = true;
 
-            confirmButton.addEventListener('click', function () {
-                if (confirmButton.textContent === 'Sedang diproses...') return;
+                    confirmButton.addEventListener('click', function () {
+                        if (confirmButton.textContent === 'Sedang diproses...') return;
 
-                confirmButton.textContent = 'Sedang diproses...';
+                        confirmButton.textContent = 'Sedang diproses...';
 
-                setTimeout(() => {
-                    sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
-                        .then(data => {
-                            if (data.ok) {
-                                // Ubah teks konfirmasi dan pesan alert
-                                confirmationModalLabel.textContent = 'Data Terkirim';
-                                confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
+                        setTimeout(() => {
+                            sendToTelegram(latestData.namaProduk, latestData.nomerTagihan, latestData.polaRespon, latestData.callbackData)
+                                .then(data => {
+                                    if (data.ok) {
+                                        confirmationModalLabel.textContent = 'Data Terkirim';
+                                        confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
 
-                                confirmButton.textContent = 'Data Berhasil Terkirim';
-                                confirmButton.disabled = true; // Disable the button after successful submission
+                                        confirmButton.textContent = 'Data Berhasil Terkirim';
+                                        confirmButton.disabled = true;
 
-                                // Ubah tombol "Batal" menjadi tombol "Tutup"
-                                cancelButton.textContent = 'Tutup';
-                                cancelButton.classList.remove('btn-secondary');
-                                cancelButton.classList.add('btn-primary');
+                                        cancelButton.textContent = 'Tutup';
+                                        cancelButton.classList.remove('btn-secondary');
+                                        cancelButton.classList.add('btn-primary');
 
-                                // Sembunyikan tombol "Lanjutkan" (confirmButton)
-                                confirmButton.style.display = 'none';
+                                        confirmButton.style.display = 'none';
 
-                                // Handle close button click and "Tutup" button click to close modal and refresh page
-                                const closeConfirmation = () => {
-                                    confirmationModal.hide();
-                                    setTimeout(() => {
-                                        location.reload(); // Auto-refresh the page after 1 second
-                                    }, 1000);
-                                };
+                                        const closeConfirmation = () => {
+                                            confirmationModal.hide();
+                                            setTimeout(() => {
+                                                location.reload();
+                                            }, 1000);
+                                        };
 
-                                closeButton.addEventListener('click', closeConfirmation);
-                                cancelButton.addEventListener('click', closeConfirmation);
+                                        closeButton.addEventListener('click', closeConfirmation);
+                                        cancelButton.addEventListener('click', closeConfirmation);
 
-                            } else {
-                                confirmButton.textContent = 'Lanjutkan';
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal!',
-                                    text: 'Pesan gagal dikirim ke Telegram',
-                                    timer: 1500,
-                                    showConfirmButton: false,
-                                    position: 'top',
-                                    toast: true
+                                    } else {
+                                        confirmButton.textContent = 'Lanjutkan';
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal!',
+                                            text: 'Pesan gagal dikirim ke Telegram',
+                                            timer: 1500,
+                                            showConfirmButton: false,
+                                            position: 'top',
+                                            toast: true
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    confirmButton.textContent = 'Lanjutkan';
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Terjadi kesalahan',
+                                        timer: 1500,
+                                        showConfirmButton: false,
+                                        position: 'top',
+                                        toast: true
+                                    });
                                 });
-                            }
-                        })
-                        .catch(error => {
-                            confirmButton.textContent = 'Lanjutkan';
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Terjadi kesalahan',
-                                timer: 1500,
-                                showConfirmButton: false,
-                                position: 'top',
-                                toast: true
-                            });
-                        });
-                }, 2000); // Wait for 2 seconds before processing
-            });
-        }
-    }
-});
+                        }, 2000);
+                    });
+                }
+            }
+        });
     </script>
 </body>
 
