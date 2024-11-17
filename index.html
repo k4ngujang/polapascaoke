@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -126,29 +127,81 @@
             }
         }
 
+        #modalTextareaWhite,
+        .code-block-textarea {
+            font-size: 14px;
+        }
+
+        .telegram-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 25px;
+        }
+
+        .telegram-icon img {
+            width: 25px;
+            height: 25px;
+        }
     </style>
 </head>
 
 <body>
     <div class="card shadow-lg bg-white">
+        <div class="icon telegram-icon">
+            <a href="https://t.me/polaresponmultivendor" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram Icon">
+            </a>
+        </div>
         <h4 class="mb-3">Pilih Produk</h4>
         <p class="text-muted mb-4">Pola respon dibawah ini khusus produk okeconnect.</p>
+
         <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-            data-modal-title="Cek Tagihan PLN Pascabayar" data-modal-content="tes 1" data-modal-code="tes 2">PLN
+            data-modal-title="Cek Tagihan PLN Pascabayar"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek .* CPLA..*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/TARIF:(?<PLN_TARIF>.+)\/DAYA:(?<PLN_DAYA>.+)\/JMLBLN:.*\/PERIODE:(?<UTAMA_PERIODE>.+)\/MET:(?<PLN_STAND_METER>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK18652 Cek Tagihan Listrik Cuan 2.800 CPLA.536210200594 sudah pernah jam 07:06, status Sukses. SN: ANDIK/TAG:166093/ADMIN:3000/TTAG:169093/TARIF:R1M/DAYA:900/JMLBLN:1/PERIODE:202408/MET:38272-38389. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 802.889">PLN
             Pascabayar</button>
+
         <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-            data-modal-title="Cek Tagihan PLN + Denda" data-modal-content="tes 3" data-modal-code="tes 4">Cek PLN +
+            data-modal-title="Cek Tagihan PLN + Denda"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek .* CPLA..* sudah pernah jam .*:10, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TARIFDAYA:(?<PLN_DAYA>.+)\/JMLBLN:(?<UTAMA_JML_BULAN>.+)\/PERIODE:(?<UTAMA_PERIODE>.+)\/RP:(?<UTAMA_TAGIHAN>.+)\/DENDA:.*\/ADMIN:(?<UTAMA_ADMIN>.+)\/TOTALTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/STAND:(?<PLN_STAND_METER>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK18783 Cek Tagihan Listrik Cuan 2.800 CPLA.520560119621 sudah pernah jam 19:10, status Sukses. SN: SUGIYO/TARIFDAYA:R1/450/JMLBLN:1/PERIODE:202408/RP:105785/DENDA:0/ADMIN:3000/TOTALTAG:108785/STAND:26945-27159. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 741.293">Cek
+            PLN +
             Denda</button>
-        <button class="btn btn-primary btn-custom">PDAM</button>
-        <button class="btn btn-primary btn-custom">BPJS Kesehatan</button>
-        <button class="btn btn-primary btn-custom">BPJS Ketenagakerjaan</button>
-        <button class="btn btn-primary btn-custom">Leasing</button>
-        <button class="btn btn-primary btn-custom">Tagihan Internet</button>
+
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+            data-modal-title="Cek Tagihan PDAM"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek PDAM .* sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/JMLBLN:(?<UTAMA_JML_BULAN>.+)\/PERIODE:(?<UTAMA_PERIODE>.+)\/MET:(?<PDAM_STANDMETER_AWAL>.+)-(?<PDAM_STANDMETER_AKHIR>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK16819 Cek PDAM Kabupaten Temanggung CPAM260.03072698 sudah pernah jam 12:05, status Sukses. SN: MUDAY**/TAG:7900/ADMIN:2500/TTAG:10400/JMLBLN:1/PERIODE:MEI 2024/MET:0-0. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 551.619">PDAM</button>
+
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+            data-modal-title="Cek Tagihan BPJS Kesehatan"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek BPJS Kesehatan CBPJS..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/JMLBLN:(?<UTAMA_JML_BULAN>.+)\/PERIODE:(?<UTAMA_PERIODE>.+)\/PESERTA:(?<BPJSKS_JUMLAH_PESERTA>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK16708 Cek BPJS Kesehatan CBPJS.8888801469406688 sudah pernah jam 13:37, status Sukses. SN: ANDI/TAG:70000/ADMIN:2500/TTAG:72500/JMLBLN:1/PERIODE:202406/PESERTA:2. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 0">BPJS
+            Kesehatan</button>
+
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+            data-modal-title="Cek Tagihan BPJS Ketenagakerjaan"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Ketenagakerjaan BPJS CBPJSKT..* sudah pernah jam .*, status Sukses. SN: TOTAL BAYAR:(?<UTAMA_TOTAL_TAGIHAN>.+)\/NAMA:(?<UTAMA_NAMA_PEL>.+)\/NOMOR KEPESERTAAN:(?<BPJSTK_NIK>.+)\/PERIODE:(?<UTAMA_JML_BULAN>.+)BULAN\/TOTAL TAGIHAN:.*\/KANTOR CABANG:.*\/JKK:.*\/JKM:.*\/JHT:RP0\/BIAYA ADMIN:(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK16988 Cek Ketenagakerjaan BPJS CBPJSKT.1904060509590003 sudah pernah jam 23:24, status Sukses. SN: TOTAL BAYAR:RP20.300/NAMA:TJHI LI*/NOMOR KEPESERTAAN:19040605095***/PERIODE:1 BULAN/TOTAL TAGIHAN:RP20.300/KANTOR CABANG:PANGKAL PINANG/JKK:RP10.000/JKM:RP6.800/JHT:RP0/BIAYA ADMIN:RP3.500. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 1.398.642">BPJS
+            Ketenagakerjaan</button>
+
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+            data-modal-title="Cek Tagihan Leasing"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek Tagihan .* Finance .*..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/(?<UTAMA_TOTAL_TAGIHAN>.+)\/ANGSURAN KE:.*\/PERIODE:(?<UTAMA_PERIODE>.+)\/ADM(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK17743 Cek Tagihan WOM Finance CFNC100.1358220230601204 sudah pernah jam 09:59, status Sukses. SN: MUSLIM/RP953000/ANGSURAN KE:013/PERIODE:03 AUG 24/ADM0. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 100.315">Leasing</button>
+
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+            data-modal-title="Cek Tagihan Internet"
+            data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek Tagihan .* .*..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/JMLBLN:(?<UTAMA_JML_BULAN>.+)\/PERIODE:(?<UTAMA_PERIODE>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+            data-modal-code="R#CEK16731 Cek Tagihan Telkom CTEL.162314206944 sudah pernah jam 17:59, status Sukses. SN: LULU SAPUTRI/TAG:130536/ADMIN:3000/TTAG:133536/JMLBLN:1/PERIODE:202406. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 1.003.487">Tagihan
+            Internet</button>
+
         <button class="btn btn-primary btn-custom" id="lainnyaButton">Lainnya</button>
         <button class="btn btn-payment btn-custom" id="paymentResponseButton">Respon Pembayaran</button>
         <button class="btn btn-failure btn-custom">Respon Gagal</button>
-        <button class="btn btn-primary btn-custom" data-bs-toggle="modal"
-            data-bs-target="#requestPolaResponModal">Request Pola Respon</button>
+        <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#requestPolaResponModal"
+            hidden>Request Pola Respon</button>
     </div>
 
     <!-- Request Pola Respon Modal -->
@@ -205,8 +258,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Pastikan kamu telah menggunakan semua pola respon di halaman ini sebelum meminta pola respon pascabayar.
-                        Jika sudah, tapi masih ada kendala saat Cek Tagihan karena regex tidak terbaca, kamu bisa request pola respon baru,
+                        Pastikan kamu telah menggunakan semua pola respon di halaman ini sebelum meminta pola respon
+                        pascabayar.
+                        Jika sudah, tapi masih ada kendala saat Cek Tagihan karena regex tidak terbaca, kamu bisa
+                        request pola respon baru,
                         baik untuk Cek Tagihan maupun Pembayaran. Jangan lupa untuk bergabung ke Channel Telegram di
                         <a href="https://t.me/polaresponmultivendor" target="_blank"
                             style="text-decoration: none;">https://t.me/polaresponmultivendor</a> agar mendapatkan
@@ -249,34 +304,58 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Cek Tagihan XL Home" data-modal-content="Cek tagihan XL Home..."
-                        data-modal-code="Format XL Home">XL Home</button>
+                        data-modal-title="Cek Tagihan XL Home"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek .*, status Sukses. SN: TOTAL BAYAR:.*\/NAMA:(?<UTAMA_NAMA_PEL>.+)\/NOMOR PELANGGAN:.*\/TOTAL TAGIHAN:(?<UTAMA_TOTAL_TAGIHAN>.+)\/BIAYA ADMIN:(?<UTAMA_ADMIN>.+)\/TAGIHAN:(?<UTAMA_TAGIHAN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK18408 Cek Tagihan XL Home CEKXLHOME.60341777 sudah pernah jam 21:28, status Sukses. SN: TOTAL BAYAR:RP287.490/NAMA:DED**/NOMOR PELANGGAN:60341777/TOTAL TAGIHAN:RP287.490/BIAYA ADMIN:RP0/TAGIHAN:RP287.490. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 832.398">XL
+                        Home</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Cek Tagihan Iconnet" data-modal-content="Cek tagihan Iconnet..."
-                        data-modal-code="Format Iconnet">Iconnet</button>
+                        data-modal-title="Cek Tagihan Iconnet"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Tagihan .*..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+)\/JMLBLN:(?<UTAMA_JML_BULAN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17405 Cek Tagihan Iconnet CEKICON.311100259758 sudah pernah jam 07:58, status Sukses. SN: MAZHUR MUHAMMAD MUHAMMAD/TAG:214230/ADMIN:3500/TTAG:217730/JMLBLN:1. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 534.703">Iconnet</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Cek Tagihan Adira" data-modal-content="Cek tagihan Adira..."
-                        data-modal-code="Format Adira">Adira</button>
+                        data-modal-title="Cek Tagihan Adira"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Tagihan .* Finance .*..*sudah pernah jam .*, status Sukses. SN: TOTAL BAYAR:.*\/NAMA:(?<UTAMA_NAMA_PEL>.+)\/TOTAL TAGIHAN:(?<UTAMA_TOTAL_TAGIHAN>.+)\/JATUH TEMPO:.*\/TAGIHAN KE:.*\/TAGIHAN:(?<UTAMA_TAGIHAN>.+)\/NOMOR PELANGGAN:(?<LEASING_NO_ANGSURAN>.+)\/DENDA:.*\/ADMIN:(?<UTAMA_ADMIN>.+)\/NOMOR POLISI:. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17370 Cek Tagihan Adira Finance CFNC131.013923110646 sudah pernah jam 09:05, status Sukses. SN: TOTAL BAYAR:RP1.442.500/NAMA:ARIP**/TOTAL TAGIHAN:RP1.442.500/JATUH TEMPO:03 JUL 24/TAGIHAN KE:17/TAGIHAN:RP1.435.000/NOMOR PELANGGAN:01392311****/DENDA:RP0/ADMIN:RP7.500/NOMOR POLISI:. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 602.923">Adira</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Cek Tagihan Kredit Plus"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek Tagihan Kredit Plus .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/(?<UTAMA_TOTAL_TAGIHAN>.+)\/ANGSURAN KE:.*\/PERIODE:(?<UTAMA_PERIODE>.+)\/(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK18936 Cek Tagihan Kredit Plus CEKKREDITP.06123124219813 sudah pernah jam 19:59, status Sukses. SN: SRI KANDI SUMUNG/RP284000/ANGSURAN KE:8/PERIODE:20112024/ADM0. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 779.019">Kredit
+                        Plus</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
                         data-modal-title="Cek Tagihan Telpon Pascabayar 1"
-                        data-modal-content="Cek tagihan Telpon Pascabayar 1..."
-                        data-modal-code="Format Telpon Pascabayar 1">Telpon Pascabayar 1</button>
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Pascabayar .*..* sudah pernah jam.*, status Sukses. SN: TOTAL BAYAR:.*\/NOMOR TELEPON:.*\/NAMA:(?<UTAMA_NAMA_PEL>.+) .\/TOTAL TAGIHAN:(?<UTAMA_TOTAL_TAGIHAN>.+)\/TOTAL TAGIHAN:(?<UTAMA_TAGIHAN>.+)\/BIAYA ADMIN:(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17518 Cek Pascabayar Telkomsel CTELP205.081379265565 sudah pernah jam 05:46, status Sukses. SN: TOTAL BAYAR:RP124.600/NOMOR TELEPON:081379265565/NAMA:YAXXXXN ./TOTAL TAGIHAN:RP124.600/TOTAL TAGIHAN:RP122.100/BIAYA ADMIN:RP2.500. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 305.786">Telpon
+                        Pascabayar 1</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
                         data-modal-title="Cek Tagihan Telpon Pascabayar 2"
-                        data-modal-content="Cek tagihan Telpon Pascabayar 2..."
-                        data-modal-code="Format Telpon Pascabayar 2">Telpon Pascabayar 2</button>
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Tagihan Pascabayar .*..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/TAG:(?<UTAMA_TAGIHAN>.+)\/ADMIN:(?<UTAMA_ADMIN>.+)\/TTAG:(?<UTAMA_TOTAL_TAGIHAN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17700 Cek Tagihan Pascabayar Xplore CTELP105.085937080456 sudah pernah jam 19:26, status Sukses. SN: I xxDE/TAG:134700/ADMIN:2500/TTAG:137200. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 713.649">Telpon
+                        Pascabayar 2</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Cek Tagihan PBB" data-modal-content="Cek tagihan PBB..."
-                        data-modal-code="Format PBB">Tagihan PBB</button>
+                        data-modal-title="Cek Tagihan PBB"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek PBB .*..*sudah pernah jam .*, status Sukses. SN: TOTAL BAYAR:.*\/JENIS PAJAK:.*\/NOMOR OBJEK PAJAK:.*\/NAMA:(?<UTAMA_NAMA_PEL>.+)\/ALAMAT:.*\/TAHUN PAJAK:(?<UTAMA_PERIODE>.+)\/TOTAL TAGIHAN:(?<UTAMA_TAGIHAN>.+)\/BIAYA ADMIN:(?<UTAMA_ADMIN>.+)\/JUMLAH PEMBAYARAN:(?<UTAMA_TOTAL_TAGIHAN>.+)\/KECAMATAN:.*\/KABUPATEN\/KOTA:.*\/PROVINSI:.*\/JUMLAH POKOK:.*\/JUMLAH DENDA:.*. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17336 Cek PBB Kabupaten Lombok Barat CPBB168.520104000800602180 sudah pernah jam 18:49, status Sukses. SN: TOTAL BAYAR:RP124.189/JENIS PAJAK:PBB/NOMOR OBJEK PAJAK:520104000800602180/NAMA:AGUSTI***/ALAMAT:DS* OMBA** KEDIR** , LOMB** BAR**/TAHUN PAJAK:2024/TOTAL TAGIHAN:RP119.189/BIAYA ADMIN:RP5.000/JUMLAH PEMBAYARAN:RP124.189/KECAMATAN:KEDIRI/KABUPATEN/KOTA:/PROVINSI:LOMBOK BARAT/JUMLAH POKOK:RP119.189/JUMLAH DENDA:RP0. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 230.793">Tagihan
+                        PBB</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
                         data-modal-title="Cek Tagihan PBB Kab. Tangerang"
-                        data-modal-content="Cek tagihan PBB Kab. Tangerang..."
-                        data-modal-code="Format PBB Kab. Tangerang">PBB Kab. Tangerang</button>
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek PBB .*..*sudah pernah jam .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/.*\/.*\/(?<UTAMA_TOTAL_TAGIHAN>.+)\/(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17510 Cek PBB Kabupaten Tangerang CPBB215.361909000501703040 sudah pernah jam 22:04, status Sukses. SN: PX DELXX CENDAXX CITAPERXXXX/PBB KAB. TANGERANG/2024/RP525250/ADM8500. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 305.786">PBB
+                        Kab. Tangerang</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
                         data-modal-title="Cek Tagihan PBB Kab. Sumedang"
-                        data-modal-content="Cek tagihan PBB Kab. Sumedang..."
-                        data-modal-code="Format PBB Kab. Sumedang">PBB Kab. Sumedang</button>
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek PBB .*, status Sukses. SN: (?<UTAMA_NAMA_PEL>.+)\/PBB KAB. .*\/\/(?<UTAMA_TOTAL_TAGIHAN>.+)\/(?<UTAMA_ADMIN>.+). Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK18305 Cek PBB Kabupaten Sumedang CPBB209.321315001700800080 sudah pernah jam 17:43, status Sukses. SN: CUCX -DUXX B OMAX/PBB KAB. SUMEDANG//RP72796/ADM8500. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 1.024.634">PBB
+                        Kab. Sumedang</button>
                 </div>
             </div>
         </div>
@@ -292,18 +371,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Tagihan Terbayarkan 1" data-modal-content="Detail tagihan terbayarkan 1..."
-                        data-modal-code="Kode Tagihan 1">Tagihan Terbayarkan 1</button>
+                        data-modal-title="Tagihan Terbayarkan 1"
+                        data-modal-content="T#.* R#(?<UTAMA_INVOICE>.+) Bayar .*\/.*:(?<UTAMA_NOREFF>.+). Saldo .* - .* = (?<UTAMA_BALANCE>.+) @.*"
+                        data-modal-code="T#268364460 R#316001 Bayar Tagihan Listrik BPLA.544103462582 SUKSES. SN: ELMA/TAG:346735/ADMIN:3000/TTAG:349735/TARIF:R1/DAYA:1300/JMLBLN:1/PERIODE:202308/MET:11797-12028/REFF:OKF00AAE818D0BB8070CB9. Saldo 11.063.116 - 347.135 = 10.715.981 @31/08 17:56">Tagihan
+                        Terbayarkan 1</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Tagihan Terbayarkan 2" data-modal-content="Detail tagihan terbayarkan 2..."
-                        data-modal-code="Kode Tagihan 2">Tagihan Terbayarkan 2</button>
+                        data-modal-title="Tagihan Terbayarkan 2"
+                        data-modal-content="T#.* R#(?<UTAMA_INVOICE>.+) Bayar .*\/.*:(?<UTAMA_NOREFF>.+)\/.* Saldo .* - .* = (?<UTAMA_BALANCE>.+) @.*"
+                        data-modal-code="T#501521501 R#PAYCEK993 Bayar Tagihan Iconnet BYRICON.311100437089 SUKSES. SN: INDRA WARMAN/TAG:214230/ADMIN:5000/TTAG:219230/PERIODE: 0JUL2024/REFF:20240710173548/ICONNET - MBPS. Saldo 319.762 - 216.680 = 103.082 @10/07 17:35">Tagihan
+                        Terbayarkan 2</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Tagihan Terbayarkan 3" data-modal-content="Detail tagihan terbayarkan 3..."
-                        data-modal-code="Kode Tagihan 3">Tagihan Terbayarkan 3</button>
+                        data-modal-title="Tagihan Terbayarkan 3"
+                        data-modal-content="T#.*R#(?<UTAMA_INVOICE>.+) Bayar .*\/.*:(?<UTAMA_NOREFF>.+). Saldo .* - .* = (?<UTAMA_BALANCE>.+) @.*"
+                        data-modal-code="T#502724375 R#PAYCEK1048 Bayar Tagihan Mega Central Finance BFNC112.7562300315 SUKSES. SN: NOMOR PELANGGAN:7562300315/NAMA:CAHRUR ROZID/NOMOR REFERENSI:7562300315/TAGIHAN KE:16/DENDA:RP0/BIAYA ADMIN:RP0/JATUH TEMPO:20-JUL-2024/TOTAL TAGIHAN:RP1.035.500/TOTAL BAYAR:RP1.035.500/TOTAL CICILAN:23/NOMOR POLISI:/JENIS KENDARAAN:/NAMA CABANG:/WARNA:/BIAYA TAGIH:/REFF:TKP20240712502724375. Saldo 1.682.013 - 1.033.075 = 648.938 @12/07 08:40">Tagihan
+                        Terbayarkan 3</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Sukses Pembayaran 4" data-modal-content="Detail sukses pembayaran 4..."
-                        data-modal-code="Kode Pembayaran 4">Sukses Pembayaran 4</button>
+                        data-modal-title="Sukses Pembayaran 4"
+                        data-modal-content="T#.* R#(?<UTAMA_INVOICE>.+) Bayar .*\/.*:(?<UTAMA_NOREFF>.+). Saldo .* - .* = (?<UTAMA_BALANCE>.+) @.*"
+                        data-modal-code="T#504876636 R#PAYCEK1103 Bayar BPJS Ketenagakerjaan BBPJSKT.3214046506750002 SUKSES. SN: KODE IURAN:924070592589/TANGGAL LUNAS:14-07-2024/NOMOR KEPESERTAAN:3214046506750002/NAMA:NONENG NURHASANAH/JKK:RP10.000/JKM:RP6.800/JHT:RP0/BULAN:1 BULAN/TOTAL IURAN:RP16.800/BIAYA ADMIN:RP3.500/TOTAL BAYAR:RP20.300/TANGGAL EFEKTIF:14-03-2024/TANGGAL BERAKHIR:16-08-2024/KANTOR CABANG:PURWAKARTA/REFF:TKP20240714504876636. Saldo 1.118.187 - 18.300 = 1.099.887 @14/07 20:21">Sukses
+                        Pembayaran 4</button>
                 </div>
             </div>
         </div>
@@ -319,18 +410,78 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Tagihan Terbayarkan 1" data-modal-content="Detail tagihan terbayarkan 1..."
-                        data-modal-code="Kode Tagihan 1">Tagihan Terbayarkan 1</button>
+                        data-modal-title="Tagihan Terbayarkan 1"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+).*..* sudah pernah jam .*, status Gagal. Tagihan Sudah Terbayar. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17401 Cek PDAM Kota Pontianak CPAM251.10614438 sudah pernah jam 07:39, status Gagal. Tagihan Sudah Terbayar. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 534.703">Tagihan
+                        Terbayarkan 1</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="ID Salah" data-modal-content="Detail ID Salah..."
-                        data-modal-code="Kode ID Salah">ID Salah</button>
+                        data-modal-title="Tagihan Terbayarkan 2"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+).*..* sudah pernah jam .*, status Gagal. Tagihan sudah terbayar. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17490 Cek PBB Kabupaten Subang CPBB206.321508100902400050 sudah pernah jam 16:17, status Gagal. Tagihan sudah terbayar. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 447.266">Tagihan
+                        Terbayarkan 2</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Invalid Number" data-modal-content="Detail Invalid Number..."
-                        data-modal-code="Kode Invalid Number">Invalid Number</button>
+                        data-modal-title="Tagihan Terbayarkan 3"
+                        data-modal-content="T#.* R#(?<UTAMA_INVOICE>.+) Cek.* GAGAL. EXT: TAGIHAN SUDAH TERBAYAR. Saldo .*"
+                        data-modal-code="T#534467328 R#CEK18787 Cek Tagihan Listrik Cuan 2.800 CPLA.171120272314 GAGAL. EXT: TAGIHAN SUDAH TERBAYAR. Saldo 691.835 @19:19">Tagihan
+                        Terbayarkan 3</button>
+
                     <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
-                        data-modal-title="Biller Error" data-modal-content="Detail Biller Error..."
-                        data-modal-code="Kode Biller Error">Biller Error</button>
+                        data-modal-title="ID Salah"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek .*..* sudah pernah jam .*, status Gagal. ID Pelanggan Salah. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK16704 Cek Tagihan Listrik CPLA.1211300123 sudah pernah jam 12:02, status Gagal. ID Pelanggan Salah. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 0">ID
+                        Salah</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Invalid Number"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+).*..* sudah pernah jam .*, status Gagal. Invalid Number. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17457 Cek Tagihan Mega Finance CFNC111.85858505 sudah pernah jam 05:39, status Gagal. Invalid Number. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 385.371">Invalid
+                        Number</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Biller Error"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek .*..* sudah pernah jam .*, status Gagal. Biller error. .*. Hrg .* Trx ke-.* gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17034 Cek Ketenagakerjaan BPJS CBPJSKT.0001191838915 sudah pernah jam 19:31, status Gagal. Biller error. Please try again later. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 681.934">Biller
+                        Error</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Already Paid 1"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek .*..* sudah pernah jam .*, status Gagal. Bill Already Paid. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17203 Cek Tagihan XL Home CEKXLHOME.60289754 sudah pernah jam 08:43, status Gagal. Bill Already Paid. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 1.025.312">Already
+                        Paid 1</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Already Paid 2"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek .*..* sudah pernah jam .*, status Gagal. .*: BILL ALREADY PAID .*. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17469 Cek Tagihan Iconnet CEKICON.311100437089 sudah pernah jam 06:44, status Gagal. EXT : BILL ALREADY PAID / NOT YET AVAILABLE. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 385.371">Already
+                        Paid 2</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Produk Gangguan"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+).*..* sudah pernah jam .*, status Gagal. Produk Sedang Gangguan. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK784 Cek BPJS Kesehatan CBPJS.8888802469651399 sudah pernah jam 19:45, status Gagal. Produk Sedang Gangguan. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 625.089">Produk
+                        Gangguan</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tidak dapat diproses ID Salah"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Tagihan.*..*sudah pernah jam .*, status Gagal. ID PELANGGAN SALAH, SILAHKAN CEK KEMBALI. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17464 Cek Tagihan Kredit Plus CEKKREDITP.4646565 sudah pernah jam 05:55, status Gagal. ID PELANGGAN SALAH, SILAHKAN CEK KEMBALI. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 385.371">Tidak
+                        dapat diproses ID Salah</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="Tidak dapat diproses NO. Salah"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+)Cek Tagihan .*..*sudah pernah jam .*, status Gagal. TRANSAKSI TIDAK DAPAT DIPROSES, SILAHKAN CEK NOMOR TUJUAN. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK17459 Cek Tagihan Kredit Plus CEKKREDITP.4646565 sudah pernah jam 05:48, status Gagal. TRANSAKSI TIDAK DAPAT DIPROSES, SILAHKAN CEK NOMOR TUJUAN. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 385.371">Tidak
+                        dapat diproses NO. Salah</button>
+
+                    <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#genericModal"
+                        data-modal-title="No Bill"
+                        data-modal-content="R#(?<UTAMA_INVOICE>.+) Cek .*, status Gagal. No Bill. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo .*"
+                        data-modal-code="R#CEK1160 Cek PDAM Kabupaten Karawang CPAM217.0804005780 sudah pernah jam 01:13, status Gagal. No Bill. Hrg 0 Trx ke-2 gunakan format yang benar. Saldo 444.840">No
+                        Bill</button>
                 </div>
             </div>
         </div>
@@ -455,8 +606,8 @@
         });
 
         function sendToTelegram(namaProduk, nomerTagihan, polaRespon, callbackData) {
-            const token = "6736759871:AAFI9vsu_2si6-uFi-CuJXeg0SnSTnRqBdw";
-            const chatId = "-1002230061317";
+            const token = "";
+            const chatId = "";
             const message = `*🔔Notifikasi Request Pola Respon Pascabayar OKE*\n\nBerikut Datanya:\n\n↪️Nama Produk: ${namaProduk}\n\n↪️Nomer Tagihan: \`${nomerTagihan}\`\n\n↪️Pola Respon: ${polaRespon}\n\nCallback: \n\n\`${callbackData || 'Tidak ada Callback'}\``;
 
             return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -508,7 +659,7 @@
                                         confirmationModalBody.textContent = 'Data permintaan pola respon pascabayar berhasil dikirim.';
 
                                         confirmButton.textContent = 'Data Berhasil Terkirim';
-                                        confirmButton.disabled = true;                                     
+                                        confirmButton.disabled = true;
                                         cancelButton.classList.remove('btn-secondary');
                                         cancelButton.classList.add('btn-primary');
 
